@@ -16,6 +16,15 @@ public class usuarios {
     private String apellidoMaterno;
     private String fechaNacimiento;
     private String password;
+    private int id_rol;
+
+    public int getId_rol() {
+        return id_rol;
+    }
+
+    public void setId_rol(int id_rol) {
+        this.id_rol = id_rol;
+    }
 
     public String getPassword() {
         return password;

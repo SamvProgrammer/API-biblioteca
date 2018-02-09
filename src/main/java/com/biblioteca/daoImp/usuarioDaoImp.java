@@ -29,7 +29,19 @@ public class usuarioDaoImp implements usuarioDao {
 
     @Override
     public Object consultar() {
-        Object consulta = jdbcTemplate.queryForList("select * from usuarios;");
+        String query = "select usuario.codigo,"
+                + "       usuario.nombre,"
+                + "	   usuario.apellido_paterno,"
+                + "       usuario.apellido_materno,"
+                + "       usuario.fecha_nacimiento,"
+                + "       usuario.password,"
+                + "       rol.rol,"
+                + "       rol.rango from usuarios usuario "
+                + "		 inner join rel_rol_usuario relacion"
+                + "         on usuario.codigo = relacion.codigo_usuario"
+                + "         inner join roles rol"
+                + "         on relacion.id_rol = rol.id";
+        Object consulta = jdbcTemplate.queryForList(query);
         return consulta;
     }
 
@@ -43,8 +55,16 @@ public class usuarioDaoImp implements usuarioDao {
             String auxApellidoPaterno = usuario.getApellidoPaterno();
             String auxApellidoMaterno = usuario.getApellidoMaterno();
             String auxFechaNacimiento = usuario.getFechaNacimiento();
-            String query = "insert into usuarios values (?,?,?,?,?)";
-            int res = jdbcTemplate.update(query, new Object[]{auxCodigo, auxNombre, auxApellidoPaterno, auxApellidoMaterno, auxFechaNacimiento});
+            String auxPassword = usuario.getPassword();
+            String query = "insert into usuarios values (?,?,?,?,?,?)";
+            int res = jdbcTemplate.update(query, new Object[]{auxCodigo, auxNombre, auxApellidoPaterno, auxApellidoMaterno, auxFechaNacimiento, auxPassword});
+
+            query = "insert into rel_rol_usuario(codigo_usuario,id_rol) values (?,?)";
+
+            int auxIdRol = usuario.getId_rol();
+
+            res = jdbcTemplate.update(query, auxCodigo, auxIdRol);
+
             respuesta.put("respuesta", "Registro insertado");
         } catch (Exception e) {
             respuesta.put("respuesta", "Error al insertar");
@@ -63,11 +83,18 @@ public class usuarioDaoImp implements usuarioDao {
             String auxApellidoPaterno = usuario.getApellidoPaterno();
             String auxApellidoMaterno = usuario.getApellidoMaterno();
             String auxFechaNacimiento = usuario.getFechaNacimiento();
-            String query = "update usuarios set nombre = ?, apellido_paterno = ?, apellido_materno = ?, fecha_nacimiento = ? where codigo = ?";
-            int res = jdbcTemplate.update(query, new Object[]{auxNombre, auxApellidoPaterno, auxApellidoMaterno, auxFechaNacimiento, auxCodigo});
-            respuesta.put("respuesta", "Registro insertado");
+            String auxPassword = usuario.getPassword();
+            String query = "update usuarios set nombre = ?, apellido_paterno = ?, apellido_materno = ?, fecha_nacimiento = ?, password=? where codigo = ?";
+            int res = jdbcTemplate.update(query, new Object[]{auxNombre, auxApellidoPaterno, auxApellidoMaterno, auxFechaNacimiento, auxPassword, auxCodigo});
+
+            int auxIdRol = usuario.getId_rol();
+
+            query = "update rel_rol_usuario set id_rol=? where codigo_usuario=?";
+            res = jdbcTemplate.update(query, new Object[]{auxIdRol, auxCodigo});
+
+            respuesta.put("respuesta", "Registro actualizado");
         } catch (Exception e) {
-            respuesta.put("respuesta", "Error al insertar");
+            respuesta.put("respuesta", "Error al actualizar");
         }
 
         return respuesta;
@@ -93,7 +120,18 @@ public class usuarioDaoImp implements usuarioDao {
         Map<String, Object> respuesta = new HashMap<String, Object>();
         try {
             String auxCodigo = usuario.getCodigo();
-            String query = "select * from usuarios where codigo = ?";
+            String query = "select usuario.codigo,"
+                    + "       usuario.nombre,"
+                    + "	   usuario.apellido_paterno,"
+                    + "       usuario.apellido_materno,"
+                    + "       usuario.fecha_nacimiento,"
+                    + "       usuario.password,"
+                    + "       rol.rol,"
+                    + "       rol.rango from usuarios usuario "
+                    + "		 inner join rel_rol_usuario relacion"
+                    + "         on usuario.codigo = relacion.codigo_usuario"
+                    + "         inner join roles rol"
+                    + "         on relacion.id_rol = rol.id where usuario.codigo = ?";
             respuesta = jdbcTemplate.queryForMap(query, auxCodigo);
 
         } catch (Exception e) {

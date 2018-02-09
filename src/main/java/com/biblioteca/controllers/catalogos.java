@@ -77,7 +77,8 @@ public class catalogos {
     }
     
     @DeleteMapping("/roles/{identificador}")
-    public Object eliminarRol(@PathVariable(value="identificador") String id,@RequestBody roles obj, HttpServletRequest request){
+    public Object eliminarRol(@PathVariable(value="identificador") String id){
+      roles obj = new roles();
       obj.setId(Integer.parseInt(id));
       Object respuesta = roles.eliminar(obj);
       return respuesta;
@@ -99,5 +100,38 @@ public class catalogos {
     ====================================================
     */ 
     
+    @GetMapping("/usuarios")
+    public Object consultarUsuarios(){
+       Object consulta =  usuarios.consultar();
+       return consulta;
+    }
     
+     @GetMapping("/usuarios/{identificador}")
+    public Object consultarEspecificoUsuario(@PathVariable(value = "identificador")String id){
+      usuarios usuario = new usuarios();
+      usuario.setCodigo(id);
+      Object respuesta = this.usuarios.obtenerEspecifico(usuario);
+      return respuesta;
+    }
+    
+    @PostMapping("/usuarios")
+    public Object insertarUsuarios(@RequestBody usuarios obj, HttpServletRequest request){
+       Object respuesta = usuarios.insertar(obj);
+       return respuesta;
+    }
+    
+    @DeleteMapping("/usuarios/{identificador}")
+    public Object eliminarUsuario(@PathVariable(value="identificador") String id){
+      usuarios obj = new usuarios();
+      obj.setCodigo(id);
+      Object respuesta = usuarios.eliminar(obj);
+      return respuesta;
+    }
+    
+    @PutMapping("/usuarios/{identificador}")
+    public Object actualizarUsuario(@PathVariable(value="identificador") String id,@RequestBody usuarios obj, HttpServletRequest request){
+      obj.setCodigo(id);
+      Object respuesta = usuarios.actualizar(obj);
+      return respuesta;
+    }
 }
