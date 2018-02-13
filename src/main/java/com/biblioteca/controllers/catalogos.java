@@ -7,10 +7,12 @@ package com.biblioteca.controllers;
 
 import com.biblioteca.dao.editorialDao;
 import com.biblioteca.dao.generosDao;
+import com.biblioteca.dao.librosDao;
 import com.biblioteca.dao.rolesDao;
 import com.biblioteca.dao.usuarioDao;
 import com.biblioteca.repositorios.editorial;
 import com.biblioteca.repositorios.generos;
+import com.biblioteca.repositorios.libros;
 import com.biblioteca.repositorios.roles;
 import com.biblioteca.repositorios.usuarios;
 import javax.servlet.http.HttpServletRequest;
@@ -56,6 +58,10 @@ public class catalogos {
     @Autowired
     @Qualifier("objGenerosDao")
     private generosDao generos;
+
+    @Autowired
+    @Qualifier("objLibrosDao")
+    private librosDao libros;
 
     /*
     ====================================================
@@ -110,7 +116,6 @@ public class catalogos {
     ==                 consultara los usuarios        ==
     ====================================================
      */
-
     @GetMapping("/usuarios")
     public Object consultarUsuarios() {
         Object consulta = usuarios.consultar();
@@ -231,6 +236,50 @@ public class catalogos {
     public Object actualizarGenero(@PathVariable(value = "identificador") int id, @RequestBody generos obj, HttpServletRequest request) {
         obj.setId(id);
         Object respuesta = generos.actualizar(obj);
+        return respuesta;
+    }
+
+    /*
+    ====================================================
+    ==       C Á T A L O G O   L I B R O S            ==
+    ==     DESCRIPCIÓN:                               ==
+    ==                 En esta sección se agregara,   ==
+    ==                 actualizara, eliminara,        ==
+    ==                 consultara los libros.         ==
+    ====================================================
+     */
+    @GetMapping("/libros")
+    public Object consultarLibro() {
+        Object consulta = libros.consultar();
+        return consulta;
+    }
+
+    @GetMapping("/libros/{identificador}")
+    public Object consultarEspecificoLibro(@PathVariable(value = "identificador") String id) {
+        libros libro = new libros();
+        libro.setCodigo(id);
+        Object respuesta = this.libros.obtenerEspecifico(libro);
+        return respuesta;
+    }
+
+    @PostMapping("/libros")
+    public Object insertarLibros(@RequestBody libros obj, HttpServletRequest request) {
+        Object respuesta = libros.insertar(obj);
+        return respuesta;
+    }
+
+    @DeleteMapping("/libros/{identificador}")
+    public Object eliminarLibro(@PathVariable(value = "identificador") String id) {
+        libros obj = new libros();
+        obj.setCodigo(id);
+        Object respuesta = libros.eliminar(obj);
+        return respuesta;
+    }
+
+    @PutMapping("/libros/{identificador}")
+    public Object actualizarLibro(@PathVariable(value = "identificador") String id, @RequestBody libros obj, HttpServletRequest request) {
+        obj.setCodigo(id);
+        Object respuesta = libros.actualizar(obj);
         return respuesta;
     }
 }
