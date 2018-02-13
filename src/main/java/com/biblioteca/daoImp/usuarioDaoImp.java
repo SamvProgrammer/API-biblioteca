@@ -127,6 +127,7 @@ public class usuarioDaoImp implements usuarioDao {
                     + "       usuario.fecha_nacimiento,"
                     + "       usuario.password,"
                     + "       rol.rol,"
+                    + "       rol.id,"
                     + "       rol.rango from usuarios usuario "
                     + "		 inner join rel_rol_usuario relacion"
                     + "         on usuario.codigo = relacion.codigo_usuario"
