@@ -33,21 +33,21 @@ public class login {
     @PostMapping("/login")
     public Object getLoginUser(@RequestBody usuarios obj, HttpServletRequest request) {
         Map<String, Object> respuesta = (Map<String, Object>) usuarios.obtenerLogin(obj);
-        if ((boolean) (respuesta.get("acceso")) == true) {
-            boolean repetido = false;
-            for (Map<String, Object> item : logeosTotales) {
-                if (item.get("codigo").equals(respuesta.get("codigo"))) {
-                    respuesta = new HashMap<String, Object>();
-                    respuesta.put("respuesta", "Usuario ya activo en otra sesión.");
-                    respuesta.put("acceso", false);
-                    repetido = true;
-                    break;
-                }
-            }
-            if (!repetido) {
-                logeosTotales.add(respuesta);
-            }
-        }
+//        if ((boolean) (respuesta.get("acceso")) == true) {
+//            boolean repetido = false;
+//            for (Map<String, Object> item : logeosTotales) {
+//                if (item.get("codigo").equals(respuesta.get("codigo"))) {
+//                    respuesta = new HashMap<String, Object>();
+//                    respuesta.put("respuesta", "Usuario ya activo en otra sesión.");
+//                    respuesta.put("acceso", false);
+//                    repetido = true;
+//                    break;
+//                }
+//            }
+//            if (!repetido) {
+//                logeosTotales.add(respuesta);
+//            }
+//        }
         return respuesta;
     }
 
