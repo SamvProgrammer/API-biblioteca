@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.59, for Win64 (AMD64)
+-- MySQL dump 10.13  Distrib 5.7.21, for Win64 (x86_64)
 --
 -- Host: localhost    Database: biblioteca
 -- ------------------------------------------------------
--- Server version	5.5.59-log
+-- Server version	5.7.21-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,10 +23,12 @@ DROP TABLE IF EXISTS `apartado`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `apartado` (
-  `codigo_libro` varchar(20) DEFAULT NULL,
-  `codigo_usuario` varchar(20) DEFAULT NULL,
+  `codigo_libro` varchar(20) NOT NULL,
+  `codigo_usuario` varchar(20) NOT NULL,
   `fecha_inicio` date DEFAULT NULL,
-  `fecha_fin` date DEFAULT NULL
+  `fecha_fin` date DEFAULT NULL,
+  `prestado` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`codigo_libro`,`codigo_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -36,6 +38,7 @@ CREATE TABLE `apartado` (
 
 LOCK TABLES `apartado` WRITE;
 /*!40000 ALTER TABLE `apartado` DISABLE KEYS */;
+INSERT INTO `apartado` VALUES ('12345','11161024','2018-03-25','2018-03-31',1),('2345','sadsdf','2018-03-25','2018-03-25',1),('codigo3','11161024','2018-03-25',NULL,0),('codigo5','11161024','2018-03-25',NULL,0),('samv','samv','2018-03-25',NULL,0);
 /*!40000 ALTER TABLE `apartado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -50,7 +53,7 @@ CREATE TABLE `editorial` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `editorial` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -59,7 +62,7 @@ CREATE TABLE `editorial` (
 
 LOCK TABLES `editorial` WRITE;
 /*!40000 ALTER TABLE `editorial` DISABLE KEYS */;
-INSERT INTO `editorial` VALUES (6,'preson');
+INSERT INTO `editorial` VALUES (6,'preson'),(7,'editorial1'),(8,'editorial2'),(9,'editorial4'),(10,'editorial3');
 /*!40000 ALTER TABLE `editorial` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -74,7 +77,7 @@ CREATE TABLE `genero` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `genero` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,7 +86,7 @@ CREATE TABLE `genero` (
 
 LOCK TABLES `genero` WRITE;
 /*!40000 ALTER TABLE `genero` DISABLE KEYS */;
-INSERT INTO `genero` VALUES (6,'suspenso'),(7,'terror'),(8,'acción');
+INSERT INTO `genero` VALUES (6,'suspenso'),(7,'terror'),(8,'acción'),(9,'genero1'),(10,'genero2');
 /*!40000 ALTER TABLE `genero` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,7 +119,7 @@ CREATE TABLE `libros` (
 
 LOCK TABLES `libros` WRITE;
 /*!40000 ALTER TABLE `libros` DISABLE KEYS */;
-INSERT INTO `libros` VALUES ('12345','señor de los anillos',10,10,'tolkie',6,6);
+INSERT INTO `libros` VALUES ('12345','señor de los anillos',10,10,'tolkie',6,6),('codigo1','libro1',10,10,'luis',9,7),('codigo2','libro2',2,2,'santiago',10,8),('codigo3','libro3',1,1,'jeja',10,7),('codigo5','libro de la selva',0,0,'no se',8,10);
 /*!40000 ALTER TABLE `libros` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,7 +173,7 @@ CREATE TABLE `rel_rol_usuario` (
 
 LOCK TABLES `rel_rol_usuario` WRITE;
 /*!40000 ALTER TABLE `rel_rol_usuario` DISABLE KEYS */;
-INSERT INTO `rel_rol_usuario` VALUES ('11161024',1),('1116100045',1),('123456789',5);
+INSERT INTO `rel_rol_usuario` VALUES ('11161024',1),('1116100045',1),('123456789',5),('11161025',1);
 /*!40000 ALTER TABLE `rel_rol_usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,7 +226,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES ('1116100045','concepcion',NULL,NULL,NULL,'12345'),('11161024','santiago','mariscal','velasquez','1993-07-25','12345'),('111649590','jessica karina','mariscal','velasquez','2005-02-10','234234324'),('123456789','josua','josua','jpsua','2018-03-17','12345'),('324','sammv','mariscal','fsd','1994-04-06',NULL);
+INSERT INTO `usuarios` VALUES ('1116100045','concepcion',NULL,NULL,NULL,'12345'),('11161024','santiago','mariscal','velasquez','1993-07-25','12345'),('11161025','gabriela','vasquez','lopez','2018-03-01','12345'),('111649590','jessica karina','mariscal','velasquez','2005-02-10','234234324'),('123456789','josua','josua','jpsua','2018-03-17','12345'),('324','sammv','mariscal','fsd','1994-04-06',NULL);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -236,4 +239,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-21 21:23:45
+-- Dump completed on 2018-03-26  8:19:15
