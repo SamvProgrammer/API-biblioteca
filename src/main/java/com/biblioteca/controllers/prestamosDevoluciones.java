@@ -48,5 +48,11 @@ public class prestamosDevoluciones {
       Object resultado = operaciones.consultarPedidos(tipo, codigo,idUsuario);
       return resultado;
     }
+    
+    @PostMapping("/pedidos")
+    public Object pedidos(@RequestBody apartado obj,HttpServletRequest request){
+     Object respuesta = operaciones.devolverLibro(obj);
+      return respuesta;
+    }
         
 }

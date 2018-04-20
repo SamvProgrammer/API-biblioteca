@@ -125,4 +125,30 @@ public class operacionesDaoImp implements operacionesDao {
         }
         return resultado;
     }
+
+    @Override
+    public Object devolverLibro(apartado obj) {
+        //Sentencia para eliminar de apartados una vez se ha devuelto el libro
+        Map<String,String> respuesta = new HashMap<String,String>();
+        try{
+          String query = "select fecha_inicio,fecha_fin from apartado where codigo_libro = ? and prestado = 1 and codigo_usuario = ?";
+          Map<String,Object> temp = jdbcTemplate.queryForMap(query, new Object[]{obj.getCodigo(),obj.getIdUsuario()});
+          String fechaInicio = String.valueOf(temp.get("fecha_inicio"));
+          String fechaFin = String.valueOf(temp.get("fecha_fin"));
+          query = "delete from apartado where codigo_libro = ? and prestado = 1 and codigo_usuario = ?";
+          jdbcTemplate.update(query, new Object[]{obj.getCodigo(), obj.getIdUsuario()});
+          
+          query = "update libros set cantidad = (cantidad + 1) where codigo = ?";
+          jdbcTemplate.update(query, new Object[]{obj.getCodigo()});
+          
+          
+          query = "insert into historico(codigo_libro,codigo_usuario,fecha_inicio,fecha_fin,observaciones) values(?,?,?,?,?)";
+          jdbcTemplate.update(query, new Object[]{obj.getCodigo(),obj.getIdUsuario(),fechaInicio,fechaFin,obj.getObservacion()});
+          respuesta.put("respuesta", "Libro devuelto correctamente");
+        }catch(Exception e){
+        respuesta.put("respuesta", "Error en el apartado de un libro, contacte a sistemas");
+        }
+        
+        return respuesta;
+    }
 }

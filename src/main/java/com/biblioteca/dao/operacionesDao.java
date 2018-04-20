@@ -15,4 +15,5 @@ public interface operacionesDao {
     public Object consulta(int tipo,int codigo,String idUsuario);
     public Object apartar(apartado obj);
     public Object consultarPedidos(int tipo,String codigo,String idUsuario);
+    public Object devolverLibro(apartado obj);
 }

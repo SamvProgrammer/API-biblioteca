@@ -14,6 +14,15 @@ public class apartado {
     private String idUsuario;
     private boolean prestado;
     private String fechaFinal;
+    private String observacion;
+
+    public String getObservacion() {
+        return observacion;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
 
     public String getFechaFinal() {
         return fechaFinal;
