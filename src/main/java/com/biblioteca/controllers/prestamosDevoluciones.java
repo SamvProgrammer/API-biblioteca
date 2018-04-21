@@ -54,5 +54,10 @@ public class prestamosDevoluciones {
      Object respuesta = operaciones.devolverLibro(obj);
       return respuesta;
     }
+    
+    @GetMapping("/historico")
+    public Object historico(){
+       return operaciones.consultaHistorio();
+    }
         
 }

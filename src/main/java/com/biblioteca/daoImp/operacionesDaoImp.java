@@ -151,4 +151,17 @@ public class operacionesDaoImp implements operacionesDao {
         
         return respuesta;
     }
+
+    @Override
+    public Object consultaHistorio() {
+        Object respuesta = null;
+        try{
+          String Query = "select h.id,h.codigo_libro,l.nombre as libro,u.codigo as codigo_usuario,u.nombre,fecha_inicio,fecha_fin,observaciones from historico h inner join libros l on l.codigo = h.codigo_libro inner join usuarios u on u.codigo = h.codigo_usuario";
+          respuesta = jdbcTemplate.queryForList(Query);
+        }catch(Exception e){
+            Map<String,String> r1 = new HashMap<String,String>();
+            r1.put("respuesta","Error en consultar el historico, favor de contactar a sistemas");            
+        }
+       return respuesta;
+    }
 }
